@@ -1,23 +1,23 @@
 import express from "express";
-import { Client } from "pg";
+import { Pool } from "pg";
 
 const app = express();
 app.use(express.json());
 
-const client = new Client({
+const pool = new Pool({
   user: "postgres",
   host: "localhost",
   password: "postgres",
-  port: 5432,
+  port: 5433,
+  database: "orders_db",
 });
 
 app.post("/orders", async (req, res) => {
   const { orderId, status } = req.body;
 
-  await client.connect();
+  const client = await pool.connect();
   try {
     await client.query("BEGIN");
-    await client.query("USE DATABASE orders_db;");
     await client.query(
       "INSERT INTO orders (id, status) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING",
       [orderId, status]
@@ -38,7 +38,7 @@ app.post("/orders", async (req, res) => {
     console.error("Transaction failed:", err);
     res.status(500).json({ error: "Failed to create order" });
   } finally {
-    await client.end();
+    client.release();
   }
 });
 
