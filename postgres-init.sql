@@ -1,6 +1,11 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
+-- Your Orders Table
+CREATE TABLE IF NOT EXISTS orders (
+        id VARCHAR(50) PRIMARY KEY,
+        status VARCHAR(50)
+      );
 -- Your Outbox Table
 CREATE TABLE IF NOT EXISTS outbox_event (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
