@@ -31,7 +31,7 @@ services:
       POSTGRES_DB: orders_db
       POSTGRES_HOST_AUTH_METHOD: trust
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - ./postgres-init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./postgresql.conf:/etc/postgresql/postgresql.conf
@@ -59,7 +59,7 @@ services:
       CONNECT_REST_ADVERTISED_HOST_NAME: connect
       CONNECT_PLUGIN_PATH: /kafka/connect,/usr/share/java
       DATABASE_HOSTNAME: postgres
-      DATABASE_PORT: 5433
+      DATABASE_PORT: 5432
       DATABASE_USER: postgres
       DATABASE_PASSWORD: postgres
       DATABASE_DBNAME: orders_db
